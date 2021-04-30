@@ -1,0 +1,19 @@
+{
+  "name": "kanban-api",
+  "version": "1.0.0",
+  "description": "backend",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/dlwodnjs42/kanban-api.git"
+  },
+  "author": "jae lee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dlwodnjs42/kanban-api/issues"
+  },
+  "homepage": "https://github.com/dlwodnjs42/kanban-api#readme"
+}
