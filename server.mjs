@@ -11,7 +11,7 @@ import dbDashboard from "./dbSchema/dbDashboard.mjs";
 // App Config
 const app = express()
 const port = process.env.PORT || 8001;
-const connection_uri = "mongodb+srv://admin:7xWEzlHsVqbUDCPR@cluster0.ggrrt.mongodb.net/kanban_db?retryWrites=true&w=majority";
+const connection_uri = "mongodb+srv://admin:<password>@cluster0.ggrrt.mongodb.net/kanban_db?retryWrites=true&w=majority";
 
 
 // Middleware
