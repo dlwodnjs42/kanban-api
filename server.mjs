@@ -5,6 +5,8 @@ import Cors from "cors";
 import Dashboard from './dbSchema/dbDashboard.mjs';
 import User from './dbSchema/dbUser.mjs';
 import Post from './dbSchema/dbPost.mjs';
+import Columns from './dbSchema/dbColumns.mjs';
+import Column from "../kanban-ui/src/Components/Column";
 
 // App Config
 const app = express()
@@ -15,6 +17,9 @@ const connection_uri = "mongodb+srv://admin:<password>@cluster0.ggrrt.mongodb.ne
 // Middleware
 app.use(express.json()); // parses incoming requests based on json payloads.
 app.use(Cors()); // adding headers to all the requests
+
+
+//router
 
 // DB Config
 mongoose.connect(connection_uri, {
@@ -50,8 +55,30 @@ app.get('/kanban/user/:id', (req,res) => {
 
 app.post('/kanban/user', (req, res) => {
     const dbUser = req.body
-
     User.create(dbUser, (err, data) => {
+        if (err) {
+            res.status(500).send(err)
+        } else {
+            res.status(201).send(data)
+        }
+    })
+
+});
+
+// columns
+app.get('/kanban/columns', (req, res) => {
+    Column.find((err, data) => {
+        if (err) {
+            res.status(500).send(err)
+        } else {
+            res.status(200).send(data)
+        }
+    })
+
+app.post('/kanban/columns', (req, res) => {
+    const dbColumns = req.body
+
+    Column.create(dbColumns, (err, data) => {
         if (err) {
             res.status(500).send(err)
         } else {
@@ -116,8 +143,18 @@ app.get('/kanban/post/:id', (req, res) => {
     })
 });
 
+app.get('/kanban/post', (req, res) => {
+    Post.find({"_id":{"$in": result[req.params.ids]}}, (err, data) => {
+        if (err) {
+            res.status(500).send(err)
+        } else {
+            res.status(200).send(data)
+        }
+    })
+});
 
 app.post('/kanban/post', (req, res) => {
+    const dbPost = req.body
     Post.create(dbPost, (err, data) => {
         if (err) {
             res.status(500).send(err)
@@ -125,6 +162,11 @@ app.post('/kanban/post', (req, res) => {
             res.status(201).send(data)
         }
     })
+
+    const column_id = req.body.column_id
+    Column.insert({_id: column_id}, {$set: {}})
+
+
 });
 
 // Listener

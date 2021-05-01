@@ -1,12 +1,14 @@
 import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema({
-    id: Number,
+    _id = Schema.Types.ObjectId,
     dashboards: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Dashboard'
-    }],
-    name: String,
+    }], // a user must be able to check all of its dashboards
+    first_name: String,
+    last_name: String,
+    email: String,
     role: String,
     description: String,
     image_url: String,
