@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
 const dashboardSchema = mongoose.Schema({
-    _id = Schema.Types.ObjectId,
+    _id: mongoose.Schema.Types.ObjectId,
     project_title: String,
+    project_description: String,
     users: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

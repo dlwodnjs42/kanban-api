@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema({
-    _id = Schema.Types.ObjectId,
+    _id: mongoose.Schema.Types.ObjectId,
     dashboards: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Dashboard'
