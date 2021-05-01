@@ -2,7 +2,10 @@ import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema({
     id: Number,
-    dashboard_id: Number,
+    dashboards: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Dashboard'
+    }],
     name: String,
     role: String,
     description: String,

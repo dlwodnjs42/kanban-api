@@ -2,11 +2,9 @@ import express from "express";
 import mongoose from "mongoose";
 import Cors from "cors";
 
-import Column from './dbSchema/dbColumn.mjs';
 import Dashboard from './dbSchema/dbDashboard.mjs';
 import User from './dbSchema/dbUser.mjs';
 import Post from './dbSchema/dbPost.mjs';
-import dbDashboard from "./dbSchema/dbDashboard.mjs";
 
 // App Config
 const app = express()
@@ -68,29 +66,6 @@ app.post('/kanban/dashboard', (req, res) => {
     const dbDashboard = req.body
 
     Dashboard.create(dbDashboard, (err, data) => {
-        if (err) {
-            res.status(500).send(err)
-        } else {
-            res.status(201).send(data)
-        }
-    })
-});
-
-//column
-app.get('/kanban/column', (req, res) => {
-    Column.find((err, data) => {
-        if (err) {
-            res.status(500).send(err)
-        } else {
-            res.status(200).send(data)
-        }
-    })
-});
-
-app.post('/kanban/column', (req, res) => {
-    const dbColumn = req.body
-
-    Column.create(dbColumn, (err, data) => {
         if (err) {
             res.status(500).send(err)
         } else {
