@@ -38,6 +38,15 @@ app.get('/kanban/user', (req, res) => {
         }
     })
 });
+app.get('/kanban/user/:id', (req,res) => {
+    User.findById(req.params.id, (err, data) => {
+        if (err) {
+            res.status(500).send(err)
+        } else {
+            res.status(200).send(data)
+        }
+    })
+});
 
 app.post('/kanban/user', (req, res) => {
     const dbUser = req.body
@@ -61,6 +70,17 @@ app.get('/kanban/dashboard', (req, res) => {
         }
     })
 });
+
+app.get('/kanban/dashboard/:id', (req, res) => {
+    Dashboard.findById(req.params.id, (err, data) => {
+        if (err) {
+            res.status(500).send(err)
+        } else {
+            res.status(200).send(data)
+        }
+    })
+});
+
 
 app.post('/kanban/dashboard', (req, res) => {
     const dbDashboard = req.body
@@ -86,9 +106,18 @@ app.get('/kanban/post', (req, res) => {
     })
 });
 
-app.post('/kanban/post', (req, res) => {
-    const dbPost = req.body
+app.get('/kanban/post/:id', (req, res) => {
+    Post.findById(req.params.id, (err, data) => {
+        if (err) {
+            res.status(500).send(err)
+        } else {
+            res.status(200).send(data)
+        }
+    })
+});
 
+
+app.post('/kanban/post', (req, res) => {
     Post.create(dbPost, (err, data) => {
         if (err) {
             res.status(500).send(err)
