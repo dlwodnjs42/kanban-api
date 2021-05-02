@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import Dashboard from '../dbSchema/dbDashboard.mjs';
 
 const dashboardRouter = express.Router();
@@ -8,6 +9,10 @@ dashboardRouter.use(function timeLog(req, res, next) {
     console.log('Time: ', Date.now());
     next();
 });
+
+
+//TODO POPULATE ON EACH LEVEL
+//TODO update but assuming the upper level exists.
 
 
 // get
@@ -22,16 +27,57 @@ dashboardRouter.get('/', (req, res) => {
 });
 
 dashboardRouter.get('/:id', (req, res) => {
-    Dashboard.findById(req.params.id, (err, data) => {
+    Dashboard.find({_id: req.params.id})
+        .populate('users')
+        .exec((err, data) => {
         if (err) {
+            console.log(err)
             res.status(500).send(err)
+
         } else {
+            console.log(data)
             res.status(200).send(data)
         }
     })
-});
+})
+;
 
-// posts
+dashboardRouter.patch('/:id', (req, res) => {
+    // TODO: Validation
+
+    const dashboard = Dashboard.findById(req.params.id).exec()
+    if (!dashboard) return res.status(404).send("The dashboard with the given ID was not found")
+
+    let query = { $set: {} };
+
+    for (let key in req.body) {
+        console.log( dashboard[key], req.body[key])
+        console.log(dashboard[key] )
+        if (dashboard.key !== undefined && dashboard[key] !== req.body[key])
+            //ignore the id and check which keys exist that we need to update
+            console.log(key)
+            query.$set[key] = req.body[key];
+    }
+
+    const updatedDashboard = Dashboard.findOneAndUpdate({ _id: req.params.id }, query)
+
+    res.send(dashboard)
+})
+
+// delete
+
+dashboardRouter.delete('/:id', (req, res) => {
+    // TODO: Validation
+    Dashboard.delete(dbDashboard, (err, data) => {
+        if (err) {
+            res.status(500).send(err)
+        } else {
+            res.status(201).send(data)
+        }
+    })
+})
+
+// post
 dashboardRouter.post('/', (req, res) => {
     const dbDashboard = req.body
 

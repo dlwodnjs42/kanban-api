@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
     dashboards: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Dashboard'
+        ref: 'dashboard'
     }], // a user must be able to check all of its dashboards
     first_name: String,
     last_name: String,
@@ -17,4 +16,4 @@ const userSchema = mongoose.Schema({
 });
 
 // sql tables = collection
-export default mongoose.model('users', userSchema);
+export default mongoose.model('user', userSchema);

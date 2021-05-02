@@ -17,13 +17,6 @@ const connection_uri = "mongodb+srv://admin:7xWEzlHsVqbUDCPR@cluster0.ggrrt.mong
 app.use(express.json()); // parses incoming requests based on json payloads.
 app.use(Cors()); // adding headers to all the requests
 
-//Routes:
-app.use("/user", userRouter);
-app.use("/column", columnRouter);
-app.use("/dashboard", dashboardRouter);
-app.use("/post", postRouter);
-
-
 // DB Config
 mongoose.connect(connection_uri, {
     useNewUrlParse: true,
@@ -31,6 +24,11 @@ mongoose.connect(connection_uri, {
     useUnifiedTopology: true
 });
 
+//Routes:
+app.use("/user", userRouter);
+app.use("/column", columnRouter);
+app.use("/dashboard", dashboardRouter);
+app.use("/post", postRouter);
 
 // Api Endpoints
 app.get('/', (req, res) => (res.status(200).send("Hello")));
