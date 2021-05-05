@@ -29,13 +29,25 @@ dashboardRouter.get('/', (req, res) => {
 dashboardRouter.get('/:id', (req, res) => {
     Dashboard.find({_id: req.params.id})
         .populate('users')
+        .populate({
+            path:'columns',
+            populate:{
+                path:'posts',
+                populate:[{
+                    path:'assigned_to',
+                    select: {"first_name":1, "last_name":2}
+                }, {
+                    path: 'reporter',
+                    select: {"first_name":1, "last_name":2}
+                }, {
+                    path: 'column',
+                    select: {"column_title":1}
+                }
+            ]}})
         .exec((err, data) => {
         if (err) {
-            console.log(err)
             res.status(500).send(err)
-
         } else {
-            console.log(data)
             res.status(200).send(data)
         }
     })
@@ -51,8 +63,6 @@ dashboardRouter.patch('/:id', (req, res) => {
     let query = { $set: {} };
 
     for (let key in req.body) {
-        console.log( dashboard[key], req.body[key])
-        console.log(dashboard[key] )
         if (dashboard.key !== undefined && dashboard[key] !== req.body[key])
             //ignore the id and check which keys exist that we need to update
             console.log(key)
